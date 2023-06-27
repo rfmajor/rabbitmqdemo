@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  rabbit1:
+    image: rabbitmq:management
+    container_name: rabbit1
+    hostname: rabbit1
+    environment:
+      RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE}
+    ports:
+      - 30000:${RABBITMQ_PORT}
+      - 30001:${RABBITMQ_MANAGEMENT_PORT}
+    volumes:
+      - ${LOCAL_CONFIG_PATH_MASTER}:${RABBITMQ_CONFIG_PATH}
+      - ${LOCAL_DEFINITIONS_PATH}:${RABBITMQ_DEFINITIONS_PATH}
+  rabbit2:
+    image: rabbitmq:management
+    container_name: rabbit2
+    hostname: rabbit2
+    environment:
+      RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE}
+    ports:
+      - 30002:${RABBITMQ_PORT}
+      - 30003:${RABBITMQ_MANAGEMENT_PORT}
+    volumes:
+      - ${LOCAL_CONFIG_PATH}:${RABBITMQ_CONFIG_PATH}
+  rabbit3:
+    image: rabbitmq:management
+    container_name: rabbit3
+    hostname: rabbit3
+    environment:
+      RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE}
+    ports:
+      - 30004:${RABBITMQ_PORT}
+      - 30005:${RABBITMQ_MANAGEMENT_PORT}
+    volumes:
+      - ${LOCAL_CONFIG_PATH}:${RABBITMQ_CONFIG_PATH}
