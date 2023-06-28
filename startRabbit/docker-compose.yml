@@ -12,7 +12,7 @@ services:
       - 30000:${RABBITMQ_PORT}
       - 30001:${RABBITMQ_MANAGEMENT_PORT}
     volumes:
-      - ${LOCAL_CONFIG_PATH_MASTER}:${RABBITMQ_CONFIG_PATH}
+      - ${LOCAL_CONFIG_PATH}:${RABBITMQ_CONFIG_PATH}
       - ${LOCAL_DEFINITIONS_PATH}:${RABBITMQ_DEFINITIONS_PATH}
   rabbit2:
     image: rabbitmq:management

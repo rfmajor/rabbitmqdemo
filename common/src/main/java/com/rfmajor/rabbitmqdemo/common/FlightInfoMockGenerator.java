@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Random;
 
-@Component
 @RequiredArgsConstructor
 public class FlightInfoMockGenerator {
     private long nextId = 0;
