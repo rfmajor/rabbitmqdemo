@@ -1,4 +1,42 @@
 {
+  "rabbit_version": "3.12.0",
+  "rabbitmq_version": "3.12.0",
+  "product_name": "RabbitMQ",
+  "product_version": "3.12.0",
+  "users": [
+    {
+      "name": "guest",
+      "password_hash": "Ev7mNtkq0y8fVg4k0O5ps4sBpu+zos5D8NwCQBnnRDeBBqRf",
+      "hashing_algorithm": "rabbit_password_hashing_sha256",
+      "tags": [
+        "administrator"
+      ],
+      "limits": {}
+    }
+  ],
+  "vhosts": [
+    {
+      "name": "/"
+    }
+  ],
+  "permissions": [
+    {
+      "user": "guest",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    }
+  ],
+  "topic_permissions": [],
+  "parameters": [],
+  "global_parameters": [
+    {
+      "name": "internal_cluster_id",
+      "value": "rabbitmq-cluster-id-ksU0vWmS6QbNoYGjM3G-7w"
+    }
+  ],
+  "policies": [],
   "queues": [
     {
       "name": "flight.queue",
@@ -10,15 +48,25 @@
       }
     }
   ],
-
-  "bindings":[
+  "exchanges": [
     {
-      "source":"flight.direct",
-      "vhost":"/",
-      "destination":"flight.queue",
-      "destination_type":"queue",
-      "routing_key":"",
-      "arguments":{}
+      "name": "flight.direct",
+      "vhost": "/",
+      "type": "direct",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    }
+  ],
+  "bindings": [
+    {
+      "source": "flight.direct",
+      "vhost": "/",
+      "destination": "flight.queue",
+      "destination_type": "queue",
+      "routing_key": "",
+      "arguments": {}
     }
   ]
 }
