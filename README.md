@@ -12,7 +12,7 @@ In scope of this project I used quorum queues instead of mirrored queues because
    ```cd startRabbit && ./run_rabbit_cluster.sh```
 
 - Wait for the rabbit nodes to start and set up the cluster
-- Run the `replicate_queues.sh` script to make sure the quorum queue from `rabbit1` node is replicated to the other nodes
+- (Optionally) Run the `replicate_queues.sh` script to make sure the quorum queue from `rabbit1` node is replicated to the other nodes
 
 2. Launch Listener's Spring Boot app
 3. Launch Sender's Spring Boot app
@@ -55,4 +55,4 @@ docker exec -it rabbit1 bash rabbitmqctl stop_app
 it should rejoin the cluster (however the connections stay the same, old connections aren’t being re-established).
 
 ## Note
-The replication mechanism of quorum queues is triggered automatically on startup of the rabbit1 node. It means that if rabbit1 makes an attempt to replicate the queue to other nodes, some of them might not yet be up, which often leads to 1 or 2 nodes being left without any quorum queue replica. I’ve made several attempts to make rabbit1 “wait” for the other nodes to be up, but there was no simple solution available. For this reason the `replicate_queues.sh` script should be executed manually once all the nodes have joined the cluster. 
+The replication mechanism of quorum queues is triggered automatically on startup of the rabbit1 node. It means that if rabbit1 makes an attempt to replicate the queue to other nodes, some of them might not yet have joined the cluster, which often leads to 1 or 2 nodes being left without any quorum queue replica. Therefore I’ve made rabbit1 container depend on rabbit2 and rabbit3, however there is still a chance that rabbit1 might start replicating before rabbit2 or rabbit3 join the cluster. If this scenario happens, an additional script `replicate_queues.sh` should be executed manually after the cluster is set up. 
