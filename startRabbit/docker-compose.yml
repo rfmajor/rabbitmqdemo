@@ -14,6 +14,9 @@ services:
     volumes:
       - ${LOCAL_CONFIG_PATH}:${RABBITMQ_CONFIG_PATH}
       - ${LOCAL_DEFINITIONS_PATH}:${RABBITMQ_DEFINITIONS_PATH}
+    depends_on:
+      - rabbit2
+      - rabbit3
   rabbit2:
     image: rabbitmq:management
     container_name: rabbit2
