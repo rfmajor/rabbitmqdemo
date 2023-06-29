@@ -41,5 +41,18 @@ or in one line:
 docker exec -it rabbit1 bash rabbitmqctl stop_app
 ```
 
-and observe the effect on the UI (30001: rabbit1, 30003: rabbit2, 30005: rabbit3, login: guest, password: guest) in the `Nodes` section (see the numbers under `socket descriptors` changing). The app should automatically reconnect to one of the remaining nodes.
+and observe the effect on the UI (30001: rabbit1, 30003: rabbit2, 30005: rabbit3, login: guest, password: guest) in the `Nodes` section (see the numbers changing under `socket descriptors`). The app should automatically reconnect to one of the remaining nodes. 
 
+If you restart the stopped node: 
+```
+docker exec -it rabbit1 bash
+rabbitmqctl start_app
+```
+or:
+```
+docker exec -it rabbit1 bash rabbitmqctl stop_app
+```
+it should rejoin the cluster (however the connections stay the same, old connections aren’t being re-established).
+
+## Note
+The replication mechanism of quorum queues is triggered automatically on startup of the rabbit1 node. It means that if rabbit1 makes an attempt to replicate the queue to other nodes, some of them might not yet be up, which often leads to 1 or 2 nodes being left without any quorum queue replica. I’ve made several attempts to make rabbit1 “wait” for the other nodes to be up, but there was no simple solution available. For this reason the `replicate_queues.sh` script should be executed manually once all the nodes have joined the cluster. 
